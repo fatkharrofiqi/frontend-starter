@@ -22,13 +22,17 @@
     "rules": {
       "recommended": true,
       "style": {
-        "useImportType": "error"
+        "useImportType": "off"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "off"
       }
     }
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double"
+      "quoteStyle": "double",
+      "semicolons": "asNeeded"
     }
   }
 }
