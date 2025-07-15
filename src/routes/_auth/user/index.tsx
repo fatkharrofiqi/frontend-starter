@@ -1,9 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import UserPage from '@/pages/user'
 
-export const Route = createFileRoute('/_auth/user/')({
-  component: RouteComponent,
+export const Route = createFileRoute('/_auth/user/')({ 
+  component: UserPage
 })
-
-function RouteComponent() {
-  return <div>Hello "/user/"!</div>
-}

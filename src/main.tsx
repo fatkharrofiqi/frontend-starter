@@ -1,22 +1,23 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
-import { StrictMode } from "react"
-import ReactDOM from "react-dom/client"
-
 // Import the generated route tree
-import { routeTree } from "./routeTree.gen"
-
+import ReactDOM from "react-dom/client"
 import reportWebVitals from "./reportWebVitals.ts"
+import { routeTree } from "./routeTree.gen"
 import "./styles.css"
 
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  context: {},
   defaultPreload: "intent",
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
 })
+
+// Create a new QueryClient instance
+const queryClient = new QueryClient()
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
@@ -30,9 +31,12 @@ const rootElement = document.getElementById("app")
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
-    <StrictMode>
+    // <StrictMode>
+    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-    </StrictMode>,
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>,
+    // </StrictMode>,
   )
 }
 

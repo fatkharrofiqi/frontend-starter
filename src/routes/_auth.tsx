@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
+import { AuthGuard } from "@/components/auth-guard"
 import { ModeToggle } from "@/components/mode-toggle"
 import {
   Breadcrumb,
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/_auth")({
 
 function RouteComponent() {
   return (
-    <>
+    <AuthGuard>
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
@@ -56,6 +57,6 @@ function RouteComponent() {
           </div>
         </SidebarInset>
       </SidebarProvider>
-    </>
+    </AuthGuard>
   )
 }

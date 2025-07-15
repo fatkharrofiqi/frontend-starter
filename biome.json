@@ -21,6 +21,10 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "complexity": {
+        "noStaticOnlyClass": "off",
+        "noBannedTypes": "off"
+      },
       "style": {
         "useImportType": "off"
       },
