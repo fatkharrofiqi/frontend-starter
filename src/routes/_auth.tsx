@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { Loading } from "@/components/ui/loading"
 import { Separator } from "@/components/ui/separator"
 import {
   SidebarInset,
@@ -18,8 +19,9 @@ import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_auth")({
   component: RouteComponent,
+  pendingComponent: () => <Loading fullScreen />,
   beforeLoad: ({ context: { auth } }) => {
-    if (!auth.isAuthenticated && !auth.isLoading) {
+    if (!auth.isAuthenticated && !auth.isInitialLoading) {
       throw redirect({
         to: "/login",
         search: {
@@ -32,7 +34,6 @@ export const Route = createFileRoute("/_auth")({
 
 function RouteComponent() {
   return (
-    // <AuthGuard>
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
@@ -66,6 +67,5 @@ function RouteComponent() {
         </div>
       </SidebarInset>
     </SidebarProvider>
-    // </AuthGuard>
   )
 }

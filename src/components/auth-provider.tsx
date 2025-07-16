@@ -1,12 +1,12 @@
 import { useAuthAction } from "@/hooks/actions/auth-action"
 import { useAuthStore } from "@/hooks/stores/auth-store"
-import { createContext, useContext, useEffect, useRef } from "react"
+import { createContext, useContext, useEffect, useRef, useState } from "react"
 import { Loading } from "./ui/loading"
 
 // Create the auth context
 export interface AuthContextType {
   isAuthenticated: boolean
-  isLoading: boolean
+  isInitialLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -21,16 +21,19 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const {
-    refreshToken: { mutate: refreshTokenMutate },
-  } = useAuthAction()
-  const { isLoading, isAuthenticated } = useAuthStore()
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
   const refreshOnceRef = useRef(false)
+  const { refreshToken } = useAuthAction()
+  const { isAuthenticated } = useAuthStore()
 
   useEffect(() => {
-    const refresh = () => {
+    const refresh = async () => {
       refreshOnceRef.current = true
-      refreshTokenMutate()
+      try {
+        await refreshToken.mutateAsync()
+      } finally {
+        setIsInitialLoading(false)
+      }
     }
 
     if (!refreshOnceRef.current) {
@@ -38,7 +41,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  if (isLoading) {
+  // Only show loading screen during initial token refresh / refresh browser
+  if (isInitialLoading) {
     return <Loading fullScreen />
   }
 
@@ -46,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{
         isAuthenticated: isAuthenticated(),
-        isLoading,
+        isInitialLoading,
       }}
     >
       {children}

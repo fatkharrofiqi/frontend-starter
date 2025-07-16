@@ -15,9 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Loading } from "@/components/ui/loading"
 import { useAuthAction } from "@/hooks/actions/auth-action"
-import { useAuthStore } from "@/hooks/stores/auth-store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useNavigate, useRouterState } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
@@ -32,7 +30,6 @@ type LoginForm = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
   const { login } = useAuthAction()
-  const { isLoading: isLoadingAuth } = useAuthStore()
   const { isLoading: isRouteLoading, search } = useRouterState({
     select: ({ isLoading, location }) => ({
       isLoading,
@@ -60,10 +57,6 @@ export default function LoginPage() {
         message: "Invalid username or password",
       })
     }
-  }
-
-  if (isRouteLoading || isLoadingAuth) {
-    return <Loading fullScreen />
   }
 
   return (
@@ -116,9 +109,9 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 className="w-full"
-                disabled={login.isPending}
+                disabled={login.isPending || isRouteLoading}
               >
-                {login.isPending ? "Logging in..." : "Login"}
+                {login.isPending || isRouteLoading ? "Logging in..." : "Login"}
               </Button>
             </form>
           </Form>
