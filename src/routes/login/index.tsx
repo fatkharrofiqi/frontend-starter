@@ -1,12 +1,18 @@
 import LoginPage from "@/pages/login"
 import { createFileRoute, redirect } from "@tanstack/react-router"
+import z from "zod"
+
+const loginSearchSchema = z.object({
+  from: z.string().optional(),
+})
 
 export const Route = createFileRoute("/login/")({
   component: LoginPage,
-  beforeLoad: ({ context: { auth } }) => {
+  validateSearch: (search) => loginSearchSchema.parse(search),
+  beforeLoad: ({ context: { auth }, search }) => {
     if (auth.isAuthenticated && !auth.isLoading) {
       throw redirect({
-        to: window.location.search || "/dashboard",
+        to: search.from || "/dashboard",
       })
     }
   },

@@ -1,12 +1,14 @@
-import React from "react"
-
 interface LoadingProps {
   fullScreen?: boolean
   size?: "sm" | "md" | "lg"
   className?: string
 }
 
-export function Loading({ fullScreen = true, size = "md", className = "" }: LoadingProps) {
+export function Loading({
+  fullScreen = true,
+  size = "md",
+  className = "",
+}: LoadingProps) {
   // Size mappings
   const sizeClasses = {
     sm: "h-6 w-6 border-t-1 border-b-1",
@@ -21,8 +23,8 @@ export function Loading({ fullScreen = true, size = "md", className = "" }: Load
 
   return (
     <div className={containerClasses}>
-      <div 
-        className={`animate-spin rounded-full ${sizeClasses[size]} border-primary ${className}`} 
+      <div
+        className={`animate-spin rounded-full ${sizeClasses[size]} border-primary ${className}`}
       />
     </div>
   )

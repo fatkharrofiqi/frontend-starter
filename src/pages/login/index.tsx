@@ -33,7 +33,12 @@ type LoginForm = z.infer<typeof loginSchema>
 export default function LoginPage() {
   const { login } = useAuthAction()
   const { isLoading: isLoadingAuth } = useAuthStore()
-  const isLoading = useRouterState({ select: (s) => s.isLoading })
+  const { isLoading: isRouteLoading, search } = useRouterState({
+    select: ({ isLoading, location }) => ({
+      isLoading,
+      search: location.search as { from?: string },
+    }),
+  })
   const navigate = useNavigate()
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -47,7 +52,7 @@ export default function LoginPage() {
     try {
       await login.mutateAsync(data)
       await navigate({
-        to: window.location.search || "/dashboard",
+        to: search.from || "/dashboard",
         replace: true,
       })
     } catch (error) {
@@ -57,7 +62,7 @@ export default function LoginPage() {
     }
   }
 
-  if (isLoading || isLoadingAuth) {
+  if (isRouteLoading || isLoadingAuth) {
     return <Loading fullScreen />
   }
 
