@@ -1,16 +1,18 @@
-import { AuthProvider } from "@/components/auth-provider"
+import type { AuthContextType } from "@/components/auth-provider"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Outlet, createRootRoute } from "@tanstack/react-router"
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 
-export const Route = createRootRoute({
+interface MyRouterContext {
+  auth: AuthContextType
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <AuthProvider>
-          <Outlet />
-          <TanStackRouterDevtools />
-        </AuthProvider>
+        <Outlet />
+        <TanStackRouterDevtools />
       </ThemeProvider>
     </>
   ),

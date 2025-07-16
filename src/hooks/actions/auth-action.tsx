@@ -38,7 +38,6 @@ export function useAuthAction() {
       return await AuthService.refreshToken()
     },
     onSuccess: ({ data }) => {
-      console.log({ data })
       setAccessToken(data.access_token)
       setLoading(false)
     },

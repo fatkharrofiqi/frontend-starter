@@ -26,6 +26,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useAuthAction } from "@/hooks/actions/auth-action"
+import { useNavigate } from "@tanstack/react-router"
 
 export function NavUser({
   user,
@@ -38,8 +39,17 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar()
   const {
-    logout: { mutate },
+    logout: { mutateAsync: logout },
   } = useAuthAction()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await logout()
+    navigate({
+      to: "/login",
+      replace: true,
+    })
+  }
 
   return (
     <SidebarMenu>
@@ -102,7 +112,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => mutate()}>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

@@ -15,9 +15,11 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Loading } from "@/components/ui/loading"
 import { useAuthAction } from "@/hooks/actions/auth-action"
+import { useAuthStore } from "@/hooks/stores/auth-store"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useNavigate } from "@tanstack/react-router"
+import { useNavigate, useRouterState } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -30,6 +32,8 @@ type LoginForm = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
   const { login } = useAuthAction()
+  const { isLoading: isLoadingAuth } = useAuthStore()
+  const isLoading = useRouterState({ select: (s) => s.isLoading })
   const navigate = useNavigate()
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -42,14 +46,19 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginForm) => {
     try {
       await login.mutateAsync(data)
-      // Get the 'from' parameter from the URL or default to dashboard
-      const from = new URLSearchParams(window.location.search).get("from") || "/dashboard"
-      navigate({ to: from })
+      await navigate({
+        to: window.location.search || "/dashboard",
+        replace: true,
+      })
     } catch (error) {
       form.setError("root", {
         message: "Invalid username or password",
       })
     }
+  }
+
+  if (isLoading || isLoadingAuth) {
+    return <Loading fullScreen />
   }
 
   return (

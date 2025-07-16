@@ -1,28 +1,55 @@
 import { useAuthAction } from "@/hooks/actions/auth-action"
 import { useAuthStore } from "@/hooks/stores/auth-store"
-import { useEffect } from "react"
+import { createContext, useContext, useEffect, useRef } from "react"
+import { Loading } from "./ui/loading"
+
+// Create the auth context
+export interface AuthContextType {
+  isAuthenticated: boolean
+  isLoading: boolean
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+// Custom hook to use the auth context
+export function useAuth() {
+  const context = useContext(AuthContext)
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider")
+  }
+  return context
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const {
-    refreshToken: { mutate },
+    refreshToken: { mutate: refreshTokenMutate },
   } = useAuthAction()
-  const { isLoading } = useAuthStore()
+  const { isLoading, isAuthenticated } = useAuthStore()
+  const refreshOnceRef = useRef(false)
 
   useEffect(() => {
     const refresh = () => {
-      mutate()
+      refreshOnceRef.current = true
+      refreshTokenMutate()
     }
 
-    refresh()
+    if (!refreshOnceRef.current) {
+      refresh()
+    }
   }, [])
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
-      </div>
-    )
+    return <Loading fullScreen />
   }
 
-  return <>{children}</>
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated: isAuthenticated(),
+        isLoading,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  )
 }

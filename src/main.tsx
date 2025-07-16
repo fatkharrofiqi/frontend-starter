@@ -2,7 +2,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 // Import the generated route tree
+import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
+import { AuthProvider, useAuth } from "./components/auth-provider.tsx"
 import reportWebVitals from "./reportWebVitals.ts"
 import { routeTree } from "./routeTree.gen"
 import "./styles.css"
@@ -14,6 +16,9 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
+  context: {
+    auth: undefined!,
+  },
 })
 
 // Create a new QueryClient instance
@@ -26,17 +31,24 @@ declare module "@tanstack/react-router" {
   }
 }
 
+function App() {
+  const auth = useAuth()
+  return <RouterProvider router={router} context={{ auth }} />
+}
+
 // Render the app
 const rootElement = document.getElementById("app")
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
-    // <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>,
-    // </StrictMode>,
+    <StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </StrictMode>,
   )
 }
 
