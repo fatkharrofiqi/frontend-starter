@@ -13,12 +13,20 @@ export interface User {
   email: string
   created_at: number
   updated_at: number
-  roles: Role[]
-  permissions: string[]
+  roles?: Role[]
+  permissions?: string[]
 }
 
 export interface UserResponse {
   data: User
+}
+
+// Search and pagination parameters
+export interface UserSearchParams {
+  name?: string
+  email?: string
+  page?: number
+  size?: number
 }
 
 // Dummy data for testing
@@ -40,18 +48,13 @@ export const dummyUsers: User[] = [
           "read-role",
           "write-role",
           "delete-role",
-          "update-role"
-        ]
+          "update-role",
+        ],
       },
       {
         name: "user",
-        permissions: [
-          "read-user",
-          "write-user",
-          "delete-user",
-          "update-user"
-        ]
-      }
+        permissions: ["read-user", "write-user", "delete-user", "update-user"],
+      },
     ],
     permissions: [
       "read-user",
@@ -66,8 +69,8 @@ export const dummyUsers: User[] = [
       "read-permission",
       "write-permission",
       "update-permission",
-      "delete-role"
-    ]
+      "delete-role",
+    ],
   },
   // Add more dummy users here
 ]

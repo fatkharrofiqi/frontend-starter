@@ -20,6 +20,12 @@
   "linter": {
     "enabled": true,
     "rules": {
+      "suspicious": {
+        "noArrayIndexKey": "off"
+      },
+      "a11y": {
+        "noLabelWithoutControl": "off"
+      },
       "recommended": true,
       "complexity": {
         "noStaticOnlyClass": "off",

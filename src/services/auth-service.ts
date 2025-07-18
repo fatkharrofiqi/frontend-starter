@@ -1,5 +1,5 @@
-import type { LoginResponse } from "@/models/auth-model"
-import type { ApiResponse } from "@/models/response-model"
+import type { LoginResponse } from "@/dto/auth"
+import type { ApiResponse } from "@/dto/response"
 import { ApiService } from "@/utils/axios-instance"
 
 export default class AuthService {

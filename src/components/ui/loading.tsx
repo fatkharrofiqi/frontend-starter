@@ -18,13 +18,13 @@ export function Loading({
 
   // Container classes
   const containerClasses = fullScreen
-    ? "flex items-center justify-center min-h-screen"
+    ? "flex items-center justify-center min-h-screen bg-background"
     : "flex items-center justify-center p-4"
 
   return (
     <div className={containerClasses}>
       <div
-        className={`animate-spin rounded-full ${sizeClasses[size]} border-primary ${className}`}
+        className={`animate-spin rounded-full ${sizeClasses[size]} border-muted-foreground/20 border-t-primary dark:border-muted-foreground/30 dark:border-t-primary ${className}`}
       />
     </div>
   )

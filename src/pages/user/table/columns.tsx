@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-import type { User } from "@/models/user"
+import type { User } from "@/dto/user"
 import type { ColumnDef } from "@tanstack/react-table"
 
 export const columns: ColumnDef<User>[] = [
@@ -18,7 +18,7 @@ export const columns: ColumnDef<User>[] = [
       const roles = row.getValue("roles") as User["roles"]
       return (
         <div className="flex flex-wrap gap-1">
-          {roles.map((role) => (
+          {roles?.map((role) => (
             <Badge key={role.name} variant="secondary">
               {role.name}
             </Badge>

@@ -1,4 +1,4 @@
-import type { LoginPayload } from "@/models/auth-model"
+import type { LoginPayload } from "@/dto/auth"
 import AuthService from "@/services/auth-service"
 import { useMutation } from "@tanstack/react-query"
 import { useAuthStore } from "../stores/auth-store"
