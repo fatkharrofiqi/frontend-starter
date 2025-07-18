@@ -1,4 +1,4 @@
-import type { LoginResponse } from "@/dto/auth"
+import type { LoginResponse, RegisterPayload } from "@/dto/auth"
 import type { ApiResponse } from "@/dto/response"
 import { ApiService } from "@/utils/axios-instance"
 
@@ -8,6 +8,13 @@ export default class AuthService {
       email,
       password,
     })
+  }
+
+  public static async register(payload: RegisterPayload) {
+    return await ApiService.post<ApiResponse<LoginResponse>>(
+      "/auth/register",
+      payload,
+    )
   }
 
   public static async logout() {

@@ -1,4 +1,4 @@
-import type { LoginPayload } from "@/dto/auth"
+import type { LoginPayload, RegisterPayload } from "@/dto/auth"
 import AuthService from "@/services/auth-service"
 import { useMutation } from "@tanstack/react-query"
 import { useAuthStore } from "../stores/auth-store"
@@ -16,7 +16,22 @@ export function useAuthAction() {
       setLoading(false)
     },
     onError: (_) => {
-      setAccessToken(null)
+      clearAuth()
+      setLoading(false)
+    },
+  })
+
+  const register = useMutation({
+    mutationFn: async (payload: RegisterPayload) => {
+      setLoading(true)
+      return await AuthService.register(payload)
+    },
+    onSuccess: ({ data }) => {
+      setAccessToken(data.access_token)
+      setLoading(false)
+    },
+    onError: (_) => {
+      clearAuth()
       setLoading(false)
     },
   })
@@ -27,9 +42,6 @@ export function useAuthAction() {
     },
     onSuccess: () => {
       clearAuth()
-    },
-    onError: (error) => {
-      console.log({ error })
     },
   })
 
@@ -47,9 +59,5 @@ export function useAuthAction() {
     },
   })
 
-  return {
-    login,
-    logout,
-    refreshToken,
-  }
+  return { login, logout, refreshToken, register }
 }

@@ -51,7 +51,9 @@ export function NavMain({
         {items.map((item) => {
           const isActive =
             item.url === location.pathname ||
-            item.items?.some((subItem) => subItem.url === location.pathname)
+            item.items?.some((subItem) =>
+              location.pathname.startsWith(subItem.url),
+            )
 
           return item.items ? (
             <Collapsible
@@ -75,7 +77,7 @@ export function NavMain({
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton
                           asChild
-                          isActive={subItem.url === location.pathname}
+                          isActive={location.pathname.startsWith(subItem.url)}
                         >
                           <Link to={subItem.url}>
                             <span>{subItem.title}</span>
@@ -92,7 +94,7 @@ export function NavMain({
               <SidebarMenuButton
                 asChild
                 tooltip={item.title}
-                isActive={item.url === location.pathname}
+                isActive={location.pathname.startsWith(item.url)}
                 onClick={() => setOpenMenu(null)}
               >
                 <Link to={item.url}>

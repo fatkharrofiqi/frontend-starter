@@ -14,6 +14,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as AuthDashboardRouteImport } from './routes/_auth/dashboard'
 import { Route as AuthUserIndexRouteImport } from './routes/_auth/user/index'
+import { Route as AuthSettingIndexRouteImport } from './routes/_auth/setting/index'
+import { Route as AuthUserFormRouteImport } from './routes/_auth/user/form'
 import { Route as AuthSettingRoleRouteImport } from './routes/_auth/setting/role'
 import { Route as AuthSettingPermissionRouteImport } from './routes/_auth/setting/permission'
 
@@ -41,6 +43,16 @@ const AuthUserIndexRoute = AuthUserIndexRouteImport.update({
   path: '/user/',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthSettingIndexRoute = AuthSettingIndexRouteImport.update({
+  id: '/setting/',
+  path: '/setting/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthUserFormRoute = AuthUserFormRouteImport.update({
+  id: '/user/form',
+  path: '/user/form',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthSettingRoleRoute = AuthSettingRoleRouteImport.update({
   id: '/setting/role',
   path: '/setting/role',
@@ -58,6 +70,8 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginIndexRoute
   '/setting/permission': typeof AuthSettingPermissionRoute
   '/setting/role': typeof AuthSettingRoleRoute
+  '/user/form': typeof AuthUserFormRoute
+  '/setting': typeof AuthSettingIndexRoute
   '/user': typeof AuthUserIndexRoute
 }
 export interface FileRoutesByTo {
@@ -66,6 +80,8 @@ export interface FileRoutesByTo {
   '/login': typeof LoginIndexRoute
   '/setting/permission': typeof AuthSettingPermissionRoute
   '/setting/role': typeof AuthSettingRoleRoute
+  '/user/form': typeof AuthUserFormRoute
+  '/setting': typeof AuthSettingIndexRoute
   '/user': typeof AuthUserIndexRoute
 }
 export interface FileRoutesById {
@@ -76,6 +92,8 @@ export interface FileRoutesById {
   '/login/': typeof LoginIndexRoute
   '/_auth/setting/permission': typeof AuthSettingPermissionRoute
   '/_auth/setting/role': typeof AuthSettingRoleRoute
+  '/_auth/user/form': typeof AuthUserFormRoute
+  '/_auth/setting/': typeof AuthSettingIndexRoute
   '/_auth/user/': typeof AuthUserIndexRoute
 }
 export interface FileRouteTypes {
@@ -86,6 +104,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/setting/permission'
     | '/setting/role'
+    | '/user/form'
+    | '/setting'
     | '/user'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -94,6 +114,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/setting/permission'
     | '/setting/role'
+    | '/user/form'
+    | '/setting'
     | '/user'
   id:
     | '__root__'
@@ -103,6 +125,8 @@ export interface FileRouteTypes {
     | '/login/'
     | '/_auth/setting/permission'
     | '/_auth/setting/role'
+    | '/_auth/user/form'
+    | '/_auth/setting/'
     | '/_auth/user/'
   fileRoutesById: FileRoutesById
 }
@@ -149,6 +173,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUserIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/setting/': {
+      id: '/_auth/setting/'
+      path: '/setting'
+      fullPath: '/setting'
+      preLoaderRoute: typeof AuthSettingIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/user/form': {
+      id: '/_auth/user/form'
+      path: '/user/form'
+      fullPath: '/user/form'
+      preLoaderRoute: typeof AuthUserFormRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/setting/role': {
       id: '/_auth/setting/role'
       path: '/setting/role'
@@ -170,6 +208,8 @@ interface AuthRouteChildren {
   AuthDashboardRoute: typeof AuthDashboardRoute
   AuthSettingPermissionRoute: typeof AuthSettingPermissionRoute
   AuthSettingRoleRoute: typeof AuthSettingRoleRoute
+  AuthUserFormRoute: typeof AuthUserFormRoute
+  AuthSettingIndexRoute: typeof AuthSettingIndexRoute
   AuthUserIndexRoute: typeof AuthUserIndexRoute
 }
 
@@ -177,6 +217,8 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthDashboardRoute: AuthDashboardRoute,
   AuthSettingPermissionRoute: AuthSettingPermissionRoute,
   AuthSettingRoleRoute: AuthSettingRoleRoute,
+  AuthUserFormRoute: AuthUserFormRoute,
+  AuthSettingIndexRoute: AuthSettingIndexRoute,
   AuthUserIndexRoute: AuthUserIndexRoute,
 }
 
