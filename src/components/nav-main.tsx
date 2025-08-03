@@ -79,7 +79,10 @@ export function NavMain({
                           asChild
                           isActive={location.pathname.startsWith(subItem.url)}
                         >
-                          <Link to={subItem.url}>
+                          <Link
+                            to={subItem.url}
+                            viewTransition={{ types: ["slide-right"] }}
+                          >
                             <span>{subItem.title}</span>
                           </Link>
                         </SidebarMenuSubButton>
@@ -97,7 +100,7 @@ export function NavMain({
                 isActive={location.pathname.startsWith(item.url)}
                 onClick={() => setOpenMenu(null)}
               >
-                <Link to={item.url}>
+                <Link to={item.url} viewTransition={{ types: ["slide-right"] }}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
                 </Link>

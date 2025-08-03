@@ -1,9 +1,9 @@
+import { Button } from "@/components/ui/button"
 import type { UserSearchParams } from "@/dto/user"
+import { Link } from "@tanstack/react-router"
+import { PlusCircle } from "lucide-react"
 import { useState } from "react"
 import { UserTable } from "./table"
-import { Button } from "@/components/ui/button"
-import { PlusCircle } from "lucide-react"
-import { Link } from "@tanstack/react-router"
 
 export default function UserPage() {
   const [searchParams] = useState<UserSearchParams>({
@@ -21,7 +21,11 @@ export default function UserPage() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/user/form" className="flex items-center gap-2">
+          <Link
+            to="/user/form"
+            viewTransition={{ types: ["slide-right"] }}
+            className="flex items-center gap-2"
+          >
             <PlusCircle size={16} />
             Add User
           </Link>

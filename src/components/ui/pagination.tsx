@@ -29,7 +29,7 @@ export function Pagination({
 }: PaginationProps) {
   return (
     <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-      {/* Info tentang jumlah hasil - disembunyikan pada mobile */}
+      {/* Information about results count - hidden on mobile */}
       <div className="hidden md:flex md:items-center md:gap-2">
         <span className="text-sm text-muted-foreground">
           Showing {(paging.page - 1) * paging.size + 1} to{" "}
@@ -38,9 +38,9 @@ export function Pagination({
         </span>
       </div>
 
-      {/* Kontrol pagination */}
+      {/* Pagination controls */}
       <div className="w-full md:w-auto flex flex-col md:flex-row md:items-center gap-2">
-        {/* Pada mobile, tampilkan info halaman di atas */}
+        {/* On mobile, display page info at the top */}
         <div className="flex justify-between items-center mb-2 md:hidden">
           <span className="text-sm text-muted-foreground">
             {paging.total_item} results
@@ -50,9 +50,9 @@ export function Pagination({
           </span>
         </div>
 
-        {/* Kontrol navigasi dan ukuran halaman */}
+        {/* Navigation controls and page size */}
         <div className="flex flex-col md:flex-row w-full md:w-auto md:items-center gap-2">
-          {/* Tombol navigasi */}
+          {/* Navigation buttons */}
           <div className="flex w-full md:w-auto items-center gap-2">
             <Button
               onClick={() => onPageChange(paging.page - 1)}
@@ -79,7 +79,7 @@ export function Pagination({
             </Button>
           </div>
 
-          {/* Select untuk ukuran halaman */}
+          {/* Select for page size */}
           <Select
             value={paging.size.toString()}
             onValueChange={(value) => onPageSizeChange(Number(value))}

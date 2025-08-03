@@ -2,7 +2,7 @@ import { DataTable } from "@/components/ui/data-table"
 import { Pagination } from "@/components/ui/pagination"
 import type { UserSearchParams } from "@/dto/user"
 import { useUserAction } from "@/hooks/actions/user-action"
-import { SearchForm } from "@/pages/user/form/search-form"
+import { SearchForm } from "@/pages/user/table/search-form"
 import { useState } from "react"
 import { columns } from "./columns"
 

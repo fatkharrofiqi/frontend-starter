@@ -50,6 +50,9 @@ export default function LoginPage() {
       await login.mutateAsync(data)
       await navigate({
         to: search.from || "/dashboard",
+        viewTransition: {
+          types: ["slide-right"],
+        },
         replace: true,
       })
     } catch (error) {
